@@ -2,13 +2,73 @@ package main
 
 import (
 	"github.com/sirupsen/logrus"
+	"github.com/urfave/cli"
+	"os"
 )
 
 var (
 	Logger *logrus.Logger
+	App    *cli.App
+	Cli    IOssCli
 )
 
 func main() {
 	Logger = newLogger()
+	// 初始化 Cli
+	Cli = &AliOssCli{}
 
+	// 注册 App
+	App := makeApp()
+	registerCommands(App)
+	registerFlags(App)
+
+	err := App.Run(os.Args)
+	if err != nil {
+		Logger.Fatal(err)
+	}
+}
+
+// 生成 cli
+func makeApp() *cli.App {
+	app := cli.NewApp()
+	app.Name = "oss-cli"
+	app.Usage = "OSS Cli 管理工具"
+	app.Version = env("APP_VERSION", "0.0.0")
+	return app
+}
+
+// 注册 命令
+func registerCommands(app *cli.App) {
+	app.EnableBashCompletion = true
+	app.Commands = []cli.Command{
+		{
+			Name:   "test",
+			Usage:  "测试配置是否正确",
+			Action: Cli.Test,
+		},
+		{
+			Name:  "add",
+			Usage: "上传文件到 OSS 中",
+		},
+		{
+			Name:  "list",
+			Usage: "查看文件列表",
+		},
+	}
+}
+
+// 注册 Flags
+func registerFlags(app *cli.App) {
+	app.Flags = []cli.Flag{
+		cli.StringFlag{
+			Name:   "key, k",
+			Usage:  "账户 API `access_key`",
+			EnvVar: "ACCESS_KEY",
+		},
+		cli.StringFlag{
+			Name:   "secret, s",
+			Usage:  "账户 API `access_key_secret`",
+			EnvVar: "ACCESS_KEY_SECRET",
+		},
+	}
 }

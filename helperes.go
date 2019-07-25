@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/sirupsen/logrus"
+	"github.com/urfave/cli"
 	"os"
 )
 
@@ -19,4 +20,10 @@ func env(key string, defV ...string) string {
 func newLogger() *logrus.Logger {
 	client := logrus.New()
 	return client
+}
+
+func getKeyAndSecret(c *cli.Context) (string, string) {
+	key := c.GlobalString("key")
+	secret := c.GlobalString("secret")
+	return key, secret
 }

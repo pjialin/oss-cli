@@ -1,7 +1,9 @@
 package main
 
+import "github.com/urfave/cli"
+
 type IOssCli interface {
-	Test()
-	Upload()
-	ListFiles()
+	Test(c *cli.Context) error
+	//Add()
+	//ListFiles() interface{}
 }
