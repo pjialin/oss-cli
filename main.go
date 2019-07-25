@@ -108,5 +108,9 @@ func getListFlags() []cli.Flag {
 			Name:  "dir",
 			Usage: "只显示目录",
 		},
+		cli.StringFlag{
+			Name:  "search",
+			Usage: "通过文件名搜索文件",
+		},
 	}
 }

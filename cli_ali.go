@@ -60,6 +60,8 @@ func (t *AliOssCli) ListFiles(c *cli.Context) error {
 		return err
 	}
 	dir := c.Bool("dir")
+	search := c.String("search")
+	limit := 0
 
 	var where []oss.Option
 	// 前缀筛选
@@ -67,7 +69,7 @@ func (t *AliOssCli) ListFiles(c *cli.Context) error {
 		where = append(where, oss.Prefix(prefix))
 	}
 	// 数量筛选
-	if limit := c.Int("limit"); !dir && limit != 0 { // 防止设置 limit 后 dir， 过滤样本不全
+	if limit = c.Int("limit"); limit != 0 && !dir && search == "" { // 防止设置 limit 后 dir， 过滤样本不全
 		where = append(where, oss.MaxKeys(limit))
 	}
 
@@ -86,10 +88,23 @@ func (t *AliOssCli) ListFiles(c *cli.Context) error {
 			sort.Sort(objects)
 		}
 	}
+	var result objectList
 	for _, object := range objects {
+		// Dir 检测
 		if dir && !strings.HasSuffix(object.Key, "/") {
 			continue
 		}
+		// 搜索
+		if search != "" && !strings.Contains(object.Key, search) {
+			continue
+		}
+		result = append(result, object)
+	}
+	// limit 检测
+	if limit > 0 {
+		result = result[:limit]
+	}
+	for _, object := range result {
 		fmt.Printf("size: %s	time: %14s	path: %s\n", ByteToShowInConsole(object.Size), object.LastModified.Format("06-01-02 15:04"), object.Key)
 	}
 	return nil
