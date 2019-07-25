@@ -12,8 +12,11 @@ var (
 	Cli    IOssCli
 )
 
-func main() {
+func init() {
 	Logger = newLogger()
+}
+
+func main() {
 	// 初始化 Cli
 	Cli = &AliOssCli{}
 
@@ -69,6 +72,16 @@ func registerFlags(app *cli.App) {
 			Name:   "secret, s",
 			Usage:  "账户 API `access_key_secret`",
 			EnvVar: "ACCESS_KEY_SECRET",
+		},
+		cli.StringFlag{
+			Name:   "bucket, b",
+			Usage:  "存储空间 Bucket Name `bucket_name`",
+			EnvVar: "BUCKET_NAME",
+		},
+		cli.StringFlag{
+			Name:   "region, e",
+			Usage:  "地域 Region Name `region name`",
+			EnvVar: "REGION_NAME",
 		},
 	}
 }
