@@ -54,8 +54,10 @@ func registerCommands(app *cli.App) {
 			Usage: "上传文件到 OSS 中",
 		},
 		{
-			Name:  "list",
-			Usage: "查看文件列表",
+			Name:   "list",
+			Usage:  "查看文件列表",
+			Action: Cli.ListFiles,
+			Flags:  getListFlags(),
 		},
 	}
 }
@@ -79,9 +81,32 @@ func registerFlags(app *cli.App) {
 			EnvVar: "BUCKET_NAME",
 		},
 		cli.StringFlag{
-			Name:   "region, e",
+			Name:   "region, r",
 			Usage:  "地域 Region Name `region name`",
 			EnvVar: "REGION_NAME",
+		},
+	}
+}
+
+func getListFlags() []cli.Flag {
+	return []cli.Flag{
+		cli.StringFlag{
+			Name:  "prefix",
+			Usage: "匹配文件前缀",
+		},
+		cli.StringFlag{
+			Name:  "sort",
+			Usage: "排序方式 asc, desc",
+			Value: "desc",
+		},
+		cli.IntFlag{
+			Name:  "limit",
+			Usage: "最大显示条数, 0 不限制",
+			Value: 0,
+		},
+		cli.BoolFlag{
+			Name:  "dir",
+			Usage: "只显示目录",
 		},
 	}
 }
