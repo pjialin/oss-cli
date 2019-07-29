@@ -34,3 +34,17 @@ func TestAliOssCli_ListFiles(t *testing.T) {
 
 	assert.Nil(t, err)
 }
+
+func TestAliOssCli_Add(t *testing.T) {
+	app := makeApp()
+	c := &AliOssCli{}
+	registerFlags(app)
+	app.Commands = []cli.Command{
+		{Name: "add", Action: c.Add, Flags: getAddFlags()},
+	}
+	args := os.Args[0:1]
+	args = append(args, "add", "--file=~/Desktop", "--save=test/", "--random=32")
+	err := app.Run(args)
+
+	assert.Nil(t, err)
+}

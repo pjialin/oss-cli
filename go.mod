@@ -4,6 +4,7 @@ go 1.12
 
 require (
 	github.com/aliyun/aliyun-oss-go-sdk v2.0.1+incompatible
+	github.com/cheggaaa/pb/v3 v3.0.1
 	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
 	github.com/sirupsen/logrus v1.4.2
 	github.com/stretchr/objx v0.2.0 // indirect

@@ -50,8 +50,10 @@ func registerCommands(app *cli.App) {
 			Action: Cli.Test,
 		},
 		{
-			Name:  "add",
-			Usage: "上传文件到 OSS 中",
+			Name:   "add",
+			Usage:  "上传文件到 OSS 中",
+			Action: Cli.Add,
+			Flags:  getAddFlags(),
 		},
 		{
 			Name:   "list",
@@ -91,7 +93,7 @@ func registerFlags(app *cli.App) {
 func getListFlags() []cli.Flag {
 	return []cli.Flag{
 		cli.StringFlag{
-			Name:  "prefix",
+			Name:  "prefix, p",
 			Usage: "匹配文件前缀",
 		},
 		cli.StringFlag{
@@ -100,7 +102,7 @@ func getListFlags() []cli.Flag {
 			Value: "desc",
 		},
 		cli.IntFlag{
-			Name:  "limit",
+			Name:  "limit, l",
 			Usage: "最大显示条数, 0 不限制",
 			Value: 0,
 		},
@@ -109,8 +111,29 @@ func getListFlags() []cli.Flag {
 			Usage: "只显示目录",
 		},
 		cli.StringFlag{
-			Name:  "search",
+			Name:  "search, s",
 			Usage: "通过文件名搜索文件",
+		},
+	}
+}
+
+func getAddFlags() []cli.Flag {
+	return []cli.Flag{
+		cli.BoolFlag{
+			Name:  "breakpoint, b",
+			Usage: "开启断点续传",
+		},
+		cli.StringFlag{
+			Name:  "file, f",
+			Usage: "文件路径",
+		},
+		cli.StringFlag{
+			Name:  "save, s",
+			Usage: "OSS 中保存的目录",
+		},
+		cli.IntFlag{
+			Name:  "random",
+			Usage: "随机生成新的文件名长度，0 使用原文件名称",
 		},
 	}
 }
