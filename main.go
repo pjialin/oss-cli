@@ -87,6 +87,11 @@ func registerFlags(app *cli.App) {
 			Usage:  "地域 Region Name `region name`",
 			EnvVar: "REGION_NAME",
 		},
+		cli.BoolFlag{
+			Name:   "internal, i",
+			Usage:  "使用内网进行连接",
+			EnvVar: "USE_INTERNAL",
+		},
 	}
 }
 

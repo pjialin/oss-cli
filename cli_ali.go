@@ -27,6 +27,10 @@ func (t *AliOssCli) Init(c *cli.Context) {
 	if region = c.GlobalString("region"); region == "" {
 		region = "cn-qingdao"
 	}
+	internal := c.GlobalBool("internal")
+	if internal {
+		region += "-internal"
+	}
 	t.Endpoint = fmt.Sprintf("http://oss-%s.aliyuncs.com", region)
 }
 
@@ -47,7 +51,7 @@ func (t *AliOssCli) Test(c *cli.Context) error {
 	if err != nil {
 		return errors.New(fmt.Sprintf(failMsg, err.Error()))
 	}
-	Logger.Info("test result: ok")
+	Logger.Info("Test result: ok")
 
 	return nil
 }
