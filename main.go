@@ -99,7 +99,6 @@ func getListFlags() []cli.Flag {
 		cli.StringFlag{
 			Name:  "sort",
 			Usage: "排序方式 asc, desc",
-			Value: "desc",
 		},
 		cli.IntFlag{
 			Name:  "limit, l",
